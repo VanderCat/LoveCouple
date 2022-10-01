@@ -1,5 +1,5 @@
 local Vector = require "hdictus.hump.vector"
-local Transform = require "Abstract.component" : subclass "Transform"
+local Transform = require "Engine.Core.Component" : subclass "Transform"
 
 function Transform:initialize(gameObject)
     Transform.super.initialize(self, gameObject)

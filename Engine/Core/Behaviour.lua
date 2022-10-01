@@ -1,6 +1,6 @@
 local timer = require "hdictus.hump.timer"
 
-local Behaviour = require "Abstract.component" : subclass "Behaviour"
+local Behaviour = require "Engine.Core.Component" : subclass "Behaviour"
 
 function Behaviour:initialize(gameObject, transform)
     Behaviour.super.initialize(self, gameObject, transform)

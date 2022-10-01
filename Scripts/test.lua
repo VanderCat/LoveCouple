@@ -1,6 +1,6 @@
 local Vector = require "hdictus.hump.vector"
 
-local Test = require "Abstract.behaviour" : subclass "Test"
+local Test = require "Engine.Core.Behaviour" : subclass "Test"
 
 function Test:awake()
     --Variables goes here...

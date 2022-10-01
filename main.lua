@@ -2,7 +2,7 @@ local timer = require "hdictus.hump.timer"
 
 local gameObjects = {}
 function love.load()
-    local GameObject = require "Abstract.gameObject"
+    local GameObject = require "Engine.Core.GameObject"
     local vec = require "hdictus.hump.vector"
     
     local player = GameObject:new("player")

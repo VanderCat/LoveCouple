@@ -1,10 +1,10 @@
-local GameObject = require "Abstract.object" : subclass "GameObject"
+local GameObject = require "Engine.Core.Object" : subclass "GameObject"
 
 function GameObject:initialize(name, components)
     GameObject.super.initialize(self)
     self.name = name or self.name
     self.active = true
-    self.transform = require "Components.transform":new(self)
+    self.transform = require "Engine.Core.Components.Transform":new(self)
     self._componentList = {self.transform}
     if components then
         for _, component in pairs(components) do

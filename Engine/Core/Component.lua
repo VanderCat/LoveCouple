@@ -1,5 +1,5 @@
-local GameObject = require "Abstract.gameObject"
-local Component = require "Abstract.object" : subclass "Component"
+local GameObject = require "Engine.Core.GameObject"
+local Component = require "Engine.Core.Object" : subclass "Component"
 
 function Component:initialize(gameObject, transform)
     Component.super.initialize(self)

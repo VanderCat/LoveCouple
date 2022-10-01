@@ -1,6 +1,6 @@
 local Color = require "Abstract.color"
 local Vector = require "hdictus.hump.vector"
-local Material = require "Abstract.object" : subclass "Material"
+local Material = require "Engine.Core.Object" : subclass "Material"
 
 function Material:initialize()
     Material.super.initialize(self)
