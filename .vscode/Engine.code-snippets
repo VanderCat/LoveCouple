@@ -1,0 +1,122 @@
+{
+	"Roomy boilerplate": {
+		"scope": "lua",
+		"prefix": "roomy",
+		"body": [
+			"local ${1:scene} = {}",
+			"",
+			"function ${1:scene}:enter(previous, ...)",
+			"\t$0",
+			"end",
+			"",
+			"function ${1:scene}:update(dt)",
+			"",
+			"end",
+			"",
+			"function ${1:scene}:leave(next, ...)",
+			"",
+			"end",
+			"",
+			"function ${1:scene}:draw()",
+			"",
+			"end",
+			"",
+			"return ${1:scene}"
+		],
+		"description": "This snippet is a boilerplate for tesselode's library roomy"
+	},
+	"Module": {
+		"scope": "lua",
+		"prefix": "module",
+		"body": [
+			"local ${1:module} = {}",
+			"",
+			"$0",
+			"",
+			"return ${1:module}"
+		],
+		"description": "Create module"
+	},
+	"Class": {
+		"scope": "lua",
+		"prefix": "class",
+		"body": [
+			"local ${1:Class} = Class \"${1:Class}\"",
+			"",
+			"function ${1:Class}:initialize()",
+			"\t${0:-- called when ${1:Class}:new()}",
+			"end",
+			"",
+			"return ${1:Class}"
+		]
+	},
+	"Sub-Class": {
+		"scope": "lua",
+		"prefix": "subclass",
+		"body": [
+			"local ${2:Subclass} = require \"${1:Class}\" : Subclass \"${2:subclass}\"",
+			"",
+			"function ${2:Subclass}:initialize()",
+			"\t${2:Subclass}.super.initialize(self)",
+			"\t${0:-- called when ${1:Subclass}:new()}",
+			"end",
+			"",
+			"return ${1:Subclass}"
+		]
+	},
+	"Pixel Shader": {
+		"scope": "glsl",
+		"prefix": "pixel",
+		"body": [
+			"#ifdef PIXEL",
+			"vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)",
+			"{",
+			"\tvec4 texturecolor = Texel(tex, texture_coords);",
+			"\t$0",
+			"\treturn texturecolor * color;",
+			"}",
+			"#endif"
+		]
+	},
+	"Video Shader": {
+		"scope": "glsl",
+		"prefix": "pixelvideo",
+		"body": [
+			"#ifdef PIXEL",
+			"vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)",
+			"{",
+			"\tvec4 texturecolor = VideoTexel(tex, texture_coords);",
+			"\t$0",
+			"\treturn texturecolor * color;",
+			"}",
+			"#endif",
+		]
+	},
+	"Vertex Shader": {
+		"scope": "glsl",
+		"prefix": "vertex",
+		"body": [
+			"#ifdef VERTEX",
+			"vec4 position(mat4 transform_projection, vec4 vertex_position)",
+			"{",
+			"\t// The order of operations matters when doing matrix multiplication.",
+			"\t$0",
+			"\treturn transform_projection * vertex_position;",
+			"}",
+			"#endif",
+		]
+	},
+	"Script": {
+		"scope": "lua",
+		"prefix": "script",
+		"body": [
+			"local ${1:Name} = require \"Engine.Core.Behaviour\" : subclass \"${1:Name}\"",
+			"",
+			"function ${1:Name}:awake()",
+			"\t${0:-- Variables go here...\n\t-- self._private = nil (keep in mind it's not actually private)\n\t-- self.public = nil}",
+			"end",
+			"",
+			"return ${1:Name}"
+		]
+	},
+}
