@@ -1,13 +1,22 @@
 local timer = require "hdictus.hump.timer"
 
 local gameObjects = {}
+local sceneStub = {}
 function love.load()
     local GameObject = require "Engine.Core.GameObject"
+    local Texture = require "Engine.Core.Texture"
     local vec = require "hdictus.hump.vector"
     
+    local camera = GameObject:new("Camera")
+    camera:addComponent(require "Engine.Core.Components.Camera").zoom = 2
+
     local player = GameObject:new("player")
     player.transform:setPosition(vec(100,100))
     player:addComponent(require "Scripts.test").speed = -0.5
+    local r = player:addComponent(require "Engine.Core.Components.Renderer")
+    local t = Texture:new(love.graphics.newImage("Assets/Images/spaceship.png"))
+    t:setFilter("nearest")
+    r.material.mainTexture = t
 
     local some = GameObject:new("some")
     local other = GameObject:new("other")
@@ -28,6 +37,8 @@ function love.load()
     gameObjects[2] = some
     gameObjects[3] = other
     gameObjects[4] = go
+    gameObjects[5] = camera
+    sceneStub.gameObjects = gameObjects
 end
 
 function love.update(dt)
@@ -39,11 +50,7 @@ end
 
 function love.draw()
     for _, gameObject in ipairs(gameObjects) do
-        local pos = gameObject.transform:position()
-        local dirdown = gameObject.transform:down(true)*16
-        local dirright = gameObject.transform:right(true)*16
-        love.graphics.points(pos.x, pos.y, pos.x+dirdown.x, pos.y+dirdown.y, pos.x+dirright.x, pos.y+dirright.y)
-        love.graphics.print(("%s\n(%i,%i)\nLocal:(%i,%i)"):format(gameObject.name, pos.x, pos.y, gameObject.transform.localPosition.x,gameObject.transform.localPosition.y), pos.x, pos.y+16)
+        gameObject:sendMessage("draw", {sceneStub})
     end
     love.graphics.print(("fps:%i"):format(love.timer.getFPS()))
 end

@@ -78,7 +78,7 @@ function camera:move(dx,dy)
 	return self
 end
 
-function camera:position()
+function camera:getPosition()
 	return self.x, self.y
 end
 

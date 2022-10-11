@@ -33,6 +33,10 @@ function Component:sendMessage(methodName, parameters, requireReciever)
     return self.gameObject:sendMessage(methodName, parameters, requireReciever)
 end
 
+function Component:_destroy()
+    self:sendMessage("OnDestroy")
+end
+
 function Component:getComponents(type)
     return self.gameObject:getComponents(type)
 end

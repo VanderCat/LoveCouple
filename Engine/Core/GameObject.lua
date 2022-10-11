@@ -28,7 +28,7 @@ function GameObject:sendMessage(methodName, parameters, requireReciever)
     for k, component in ipairs(self._componentList) do
         local method = component[methodName]
         if method then
-            component[methodName](component, unpack(parameters))
+            component[methodName](component, unpack(parameters or {}))
             noOneAnswered = false
         end
     end

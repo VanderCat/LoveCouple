@@ -54,14 +54,14 @@
 		"scope": "lua",
 		"prefix": "subclass",
 		"body": [
-			"local ${2:Subclass} = require \"${1:Class}\" : Subclass \"${2:subclass}\"",
+			"local ${2:Subclass} = require \"${1:Class}\" : subclass \"${2:subclass}\"",
 			"",
 			"function ${2:Subclass}:initialize()",
 			"\t${2:Subclass}.super.initialize(self)",
-			"\t${0:-- called when ${1:Subclass}:new()}",
+			"\t${0:-- called when ${2:Subclass}:new()}",
 			"end",
 			"",
-			"return ${1:Subclass}"
+			"return ${2:Subclass}"
 		]
 	},
 	"Pixel Shader": {
