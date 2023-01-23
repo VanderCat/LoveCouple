@@ -14,7 +14,11 @@ function GameObject:initialize(name, components)
 end
 
 function GameObject:activeOverall()
-    return true -- FIXME: if parent is not active return false
+    local parent = self.transform.parent
+    if (parent) then
+        return parent.gameObject:activeOverall()
+    end
+    return self.active
 end
 
 function GameObject:addComponent(Component)
