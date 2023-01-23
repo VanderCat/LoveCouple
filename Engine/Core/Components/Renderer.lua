@@ -33,12 +33,12 @@ function Renderer:onCameraDraw(bounds)
         if self.bounds:isColliding(bounds) then
             lg.push("all")
                 self.gameObject:sendMessage("preObjectDraw")
-                lg.applyTransform(self.transform._transform)
                 local parent = self.transform.parent
                 while parent do
                     lg.applyTransform(parent._transform)
                     parent=parent.parent
                 end
+                lg.applyTransform(self.transform._transform)
                 lg.scale(self.material.mainTextureScale.x, self.material.mainTextureScale.y)
                 lg.setColor(self.material.color)
                 local w, h = self.material.mainTexture:getPixelDimensions()
