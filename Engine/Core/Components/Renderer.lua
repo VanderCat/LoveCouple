@@ -29,26 +29,34 @@ end
 
 local lg = love.graphics
 function Renderer:onCameraDraw(bounds)
-    if self.material then
-        if self.bounds:isColliding(bounds) then
-            lg.push("all")
-                self.gameObject:sendMessage("preObjectDraw")
-                local parent = self.transform.parent
-                while parent do
-                    lg.applyTransform(parent._transform)
-                    parent=parent.parent
-                end
-                lg.applyTransform(self.transform._transform)
-                lg.scale(self.material.mainTextureScale.x, self.material.mainTextureScale.y)
-                lg.setColor(self.material.color)
-                local w, h = self.material.mainTexture:getPixelDimensions()
-                local offset = self.material.mainTextureOffset
-                local size = Vector(w*offset.x, h*offset.y)
-                lg.draw(self.material.mainTexture:getDrawable(), 0, 0, 0, 1, 1, size.x, size.y)
-                self.gameObject:sendMessage("postObjectDraw")
-            lg.pop()
-        end
+    if not self.material then
+        return
     end
+    if not self.bounds:isColliding(bounds) then
+        return
+    end
+
+    lg.push("all")
+
+    self.gameObject:sendMessage("preObjectDraw")
+
+    local parent = self.transform.parent
+    while parent do
+        lg.applyTransform(parent._transform)
+        parent=parent.parent
+    end
+    lg.applyTransform(self.transform._transform)
+    lg.scale(self.material.mainTextureScale.x, self.material.mainTextureScale.y)
+    lg.setColor(self.material.color)
+    
+    local w, h = self.material.mainTexture:getPixelDimensions()
+    local offset = self.material.mainTextureOffset
+    local size = Vector(w*offset.x, h*offset.y)
+    lg.draw(self.material.mainTexture:getDrawable(), 0, 0, 0, 1, 1, size.x, size.y)
+
+    self.gameObject:sendMessage("postObjectDraw")
+
+    lg.pop()
 end
 
 return Renderer
