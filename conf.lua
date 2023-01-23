@@ -6,7 +6,7 @@ function love.conf(t)
     t.identity = "SpaceShmapRemake"     -- Имя папки, в которую LÖVE будет сохранять файлы (строка)
     t.appendidentity = false            -- Искать файлы в корневой папке игры перед их поиском в папке сохранений (логическое)
     t.version = "11.4"                  -- Версия LÖVE для которой была сделана игра (строка)
-    t.console = false                   -- Разрешить консольный вывод (boolean, работает только в Windows)
+    t.console = true                   -- Разрешить консольный вывод (boolean, работает только в Windows)
     t.accelerometerjoystick = true      -- Включить акселерометр на Android и iOS устройствах, представив его в виде джойстика (логическое)
     t.externalstorage = false           -- При значении true LÖVE будет сохранять данные на внешнем хранилище Android смартфона (логическое) 
     t.gammacorrect = false              -- Включить гамма-коррекцию, если поддерживается системой (логическое)
@@ -51,9 +51,11 @@ function love.conf(t)
     t.modules.window = true             -- Включить модуль window (логическое)
 
     package.path=package.path..";Libraries/?.lua;Libraries/?/init.lua"
+    package.cpath=package.cpath..";Binaries/?.dll"
     Class = require "kikito.middleclass"
     local socket = require("socket")
     local uuid = require("tieske.uuid")
     uuid.seed()
     require "extensions"
+    require "imgui"
 end

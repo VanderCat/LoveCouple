@@ -6,5 +6,10 @@
     "Lua.workspace.ignoreDir": [
         ".vscode",
         "Libraries"
-    ]
+    ],
+    "Lua.diagnostics.globals": [
+        "love",
+        "imgui"
+    ],
+    "todo-tree.regex.regex": "--\\[\\[[\\s|\\n|\\r]*($TAGS)[\\s|\\n|\\r]*\\]\\]|--\\s*($TAGS)",
 }
