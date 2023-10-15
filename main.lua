@@ -4,7 +4,7 @@ local gameObjects = {}
 local SceneManager = require "Engine.Core.SceneManagement.SceneManager"
 function love.load()
     local scene = SceneManager:createScene("test")
-    SceneManager:setActiveScene(scene)
+    SceneManager:loadScene(scene)
 
     local GameObject = require "Engine.Core.GameObject"
     local Texture = require "Engine.Core.Texture"
@@ -51,6 +51,19 @@ function love.load()
     local searcher = GameObject:new("Searcher")
     searcher:addComponent(require "Scripts.findTheThing")
     searcher:addComponent(require "Scripts.findSpawner")
+
+    timer.after(1, function ()
+        SceneManager:unloadScene(scene)
+        local scene = SceneManager:createScene("new scene")
+        SceneManager:loadScene(scene)
+        GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
+    end)
+
+    timer.after(4, function ()
+        local scene = SceneManager:createScene("jokes on you im now a new scene")
+        SceneManager:loadScene(scene, true)
+        GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
+    end)
 end
 
 function love.update(dt)
