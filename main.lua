@@ -41,6 +41,10 @@ function love.load()
 
     go.transform.parent = other.transform
     go.transform:setLocalPosition(vec(-50,0))
+
+    local meta = GameObject:new("meta")
+    meta:addComponent(require "Scripts.testMetaComponent")
+    SceneManager:getSceneByName("DontDestroyOnLoad"):moveGameObject(meta)
 end
 
 function love.update(dt)

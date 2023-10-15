@@ -18,6 +18,10 @@ function GameObject:initialize(name, components)
 end
 
 function GameObject:_destroy()
+    GameObject:sendMessage("OnDestroy")
+    for _, component in ipairs(self._componentList) do
+        component:_destroy()
+    end
     self.super:_destroy()
     self.scene:removeGameObject(self)
     self.scene = nil
@@ -40,11 +44,13 @@ end
 function GameObject:sendMessage(methodName, parameters, requireReciever)
     local noOneAnswered = true
     for k, component in ipairs(self._componentList) do
+        if not component.enabled then goto continue end
         local method = component[methodName]
         if method then
             component[methodName](component, unpack(parameters or {}))
             noOneAnswered = false
         end
+        ::continue::
     end
     if noOneAnswered and requireReciever then
         error("No one answered to "..methodName.."!")

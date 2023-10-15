@@ -7,9 +7,12 @@ function Behaviour:initialize(gameObject, transform)
     self._invokeList = {}
     self:executeIfAny("awake")
     if self.enabled then
-        self:executeIfAny("onEnable")
-        self:executeIfAny("start")
+        self:onEnable()
     end
+end
+
+function Behaviour:onEnable()
+    self:executeIfAny("start")
 end
 
 function Behaviour:executeIfAny(methodName, ...)
@@ -18,6 +21,7 @@ function Behaviour:executeIfAny(methodName, ...)
         method(self, ...)
     end
 end
+
 function Behaviour:invoke(methodName, time, ...)
     local method = self[methodName]
     if method then

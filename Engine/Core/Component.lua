@@ -19,9 +19,9 @@ function Component:toggle(state)
         self.enabled = not self.enabled
     end
     if self.enabled then
-        self:sendMessage("OnEnable")
+        self:onEnable()
     else
-        self:sendMessage("OnDisable")
+        self:onDisable()
     end
 end
 
@@ -34,7 +34,7 @@ function Component:sendMessage(methodName, parameters, requireReciever)
 end
 
 function Component:_destroy()
-    self:sendMessage("OnDestroy")
+    self:onComponentDestroy()
 end
 
 function Component:getComponents(type)
@@ -43,6 +43,16 @@ end
 
 function Component:getComponent(type)
     return self.gameObject:getComponent(type)
+end
+
+--stubs
+function Component:onEnable()
+end
+function Component:onDisable()
+end
+function Component:onComponentDestroy()
+end
+function Component:onDestroy()
 end
 
 return Component

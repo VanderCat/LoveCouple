@@ -24,9 +24,15 @@ function Scene:addGameObject(gameObject)
     gameObject.scene = self
 end
 
+function Scene:moveGameObject(gameObject)
+    --FIXME: Type Safety
+    gameObject.scene:removeGameObject(gameObject)
+    self:addGameObject(gameObject)
+end
+
 function Scene:removeGameObject(gameObject)
     --FIXME: Type Safety
-    self.gameObjects[gameObject._sceneId] = gameObject
+    self.gameObjects[gameObject._sceneId] = nil
     gameObject._sceneId = -1
     gameObject.scene = nil
 end

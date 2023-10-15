@@ -35,9 +35,6 @@ local function mainLoop()
         love.graphics.origin()
         love.graphics.clear(love.graphics.getBackgroundColor())
 
-        if sceneValid then
-            currentScene:_draw()
-        end
         if love.draw then 
             love.draw()
         end
