@@ -1,3 +1,4 @@
+local SceneManager = require "Engine.Core.SceneManagement.SceneManager"
 local GameObject = require "Engine.Core.Object" : subclass "GameObject"
 
 function GameObject:initialize(name, components)
@@ -6,11 +7,20 @@ function GameObject:initialize(name, components)
     self.active = true
     self.transform = require "Engine.Core.Components.Transform":new(self)
     self._componentList = {self.transform}
+    self._sceneId = -1
     if components then
         for _, component in pairs(components) do
             self:addComponent(component)
         end
     end
+
+    SceneManager:getActiveScene():addGameObject(self)
+end
+
+function GameObject:_destroy()
+    self.super:_destroy()
+    self.scene:removeGameObject(self)
+    self.scene = nil
 end
 
 function GameObject:activeOverall()

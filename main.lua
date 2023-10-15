@@ -1,8 +1,11 @@
 local timer = require "hdictus.hump.timer"
 
 local gameObjects = {}
-local sceneStub = {}
+local SceneManager = require "Engine.Core.SceneManagement.SceneManager"
 function love.load()
+    local scene = SceneManager:createScene("test")
+    SceneManager:setActiveScene(scene)
+
     local GameObject = require "Engine.Core.GameObject"
     local Texture = require "Engine.Core.Texture"
     local vec = require "hdictus.hump.vector"
@@ -38,29 +41,17 @@ function love.load()
 
     go.transform.parent = other.transform
     go.transform:setLocalPosition(vec(-50,0))
-    
-    gameObjects[1] = player
-    gameObjects[2] = some
-    gameObjects[3] = other
-    gameObjects[4] = go
-    gameObjects[5] = camera
-    sceneStub.gameObjects = gameObjects
 end
 
 function love.update(dt)
+    SceneManager:update(dt)
     timer.update(dt)
-    for _, gameObject in ipairs(gameObjects) do
-        gameObject:sendMessage("update", {dt})
-    end
 end
 
 function love.draw()
-    for _, gameObject in ipairs(gameObjects) do
-        gameObject:sendMessage("draw", {sceneStub})
-        gameObject:sendMessage("onDrawGui", {sceneStub})
-    end
+    SceneManager:draw()
     --imgui.Render()
-    love.graphics.print(("fps:%i"):format(love.timer.getFPS()))
+    love.graphics.print(("fps:%i\ncurrent_scene: %s"):format(love.timer.getFPS(), SceneManager:getActiveScene().name))
 end
 
 function love.quit()

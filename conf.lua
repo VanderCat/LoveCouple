@@ -57,5 +57,9 @@ function love.conf(t)
     local uuid = require("tieske.uuid")
     uuid.seed()
     require "extensions"
-    require "imgui"
+    --require "imgui"
+    MAX_FPS = 0
+    require "Engine.Core.GameLoop"
+
+    require "Engine.LuaExtensions.table"
 end

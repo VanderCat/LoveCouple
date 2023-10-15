@@ -28,9 +28,9 @@ function Camera:OnScreenChange(w, h)
     self._cam:setViewport(0, 0, w, h, self.fracture.x, self.fracture.x)
 end
 
-function Camera:draw(scene)
+function Camera:draw()
     self._cam:attach()
-        for _, gameObject in pairs(scene.gameObjects) do
+        for _, gameObject in pairs(self.gameObject.scene.gameObjects) do
             gameObject:sendMessage("onCameraDraw", {self.bounds})
         end 
     self._cam:detach()
