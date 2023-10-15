@@ -7,6 +7,7 @@ function Transform:initialize(gameObject)
     self.localPosition = Vector(0,0)
     self.localRotation = 0
     self.localScale = Vector(1,1)
+    self._children = {}
     
     self._transform = love.math.newTransform()
 
@@ -78,6 +79,65 @@ end
 
 function Transform:right(globalSpace)
     return Vector(1,0):rotateInplace(globalSpace and self:getRotation() or self.localRotation)
+end
+
+function Transform:setParent(transform)
+    self.parent = transform
+    self.parent._children[#transform._children+1] = self
+end
+
+function Transform:removeParent()
+    if not self.parent then return end
+
+    local siblingIndex = self:getSiblingIndex()
+
+    table.remove(self.parent._children, siblingIndex)
+
+    self.parent = nil
+end
+
+function Transform:getSiblingIndex()
+    if not self.parent then return -1 end
+
+    --NOTE: not sure if it is a correct way to do it
+    for index, child in ipairs(self.parent._children) do
+        if child == self then return index end
+    end
+    return -1
+end
+
+function Transform:setSiblingIndex(index)
+    if not self.parent then return end -- TODO: Maybe throw up an error?
+
+    local siblingIndex = self:getSiblingIndex()
+    table.remove(self.parent._children, siblingIndex)
+    table.insert(self.parent._children, index, self)
+end
+
+function Transform:getChildren()
+    return table.shallow_copy(self._children)
+end
+
+function Transform:getChild(index)
+    return self._children[index]
+end
+
+function Transform:find(name)
+    if #self._children == 0 then return end
+
+    local path = name:split("/")
+    if #path == 1 then
+        for _, child in ipairs(self._children) do
+            if child.gameObject.name == name then return child.gameObject end
+        end
+    end
+
+    local foundGameObject = self.gameObject
+    for _, pathElement in ipairs(path) do
+        foundGameObject = foundGameObject.transform:find(pathElement) or -1
+        if foundGameObject == -1 then return end
+    end
+    return foundGameObject
 end
 
 return Transform

@@ -6,7 +6,7 @@ function love.conf(t)
     t.identity = "SpaceShmapRemake"     -- Имя папки, в которую LÖVE будет сохранять файлы (строка)
     t.appendidentity = false            -- Искать файлы в корневой папке игры перед их поиском в папке сохранений (логическое)
     t.version = "11.4"                  -- Версия LÖVE для которой была сделана игра (строка)
-    t.console = true                   -- Разрешить консольный вывод (boolean, работает только в Windows)
+    t.console = false                   -- Разрешить консольный вывод (boolean, работает только в Windows)
     t.accelerometerjoystick = true      -- Включить акселерометр на Android и iOS устройствах, представив его в виде джойстика (логическое)
     t.externalstorage = false           -- При значении true LÖVE будет сохранять данные на внешнем хранилище Android смартфона (логическое) 
     t.gammacorrect = false              -- Включить гамма-коррекцию, если поддерживается системой (логическое)
@@ -58,8 +58,21 @@ function love.conf(t)
     uuid.seed()
     require "extensions"
     --require "imgui"
-    MAX_FPS = 0
+    MAX_FPS = 1/1000
     require "Engine.Core.GameLoop"
 
     require "Engine.LuaExtensions.table"
+    require "Engine.LuaExtensions.string"
+
+    local timer = require "hdictus.hump.timer"
+    --[[timer.after(100, function ()
+        debug.sethook(function (a, b, c)
+            local info = debug.getinfo(2)
+            local name = info.name
+            local source = info.source
+            if name and source ~= "=[C]" then
+                print(debug.traceback(nil, 2))
+            end
+        end, "c")
+    end)]]
 end

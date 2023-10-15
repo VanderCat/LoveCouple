@@ -42,6 +42,7 @@ function Renderer:onCameraDraw(bounds)
 
     local parent = self.transform.parent
     while parent do
+        -- FIXME: For some reason game just freezes here on high fps... why????
         lg.applyTransform(parent._transform)
         parent=parent.parent
     end

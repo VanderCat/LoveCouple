@@ -27,7 +27,7 @@ function Behaviour:invoke(methodName, time, ...)
     if method then
         local params = {...}
         self._invokeList[methodName] = timer.after(time or 0, function ()
-            method(self, table.unpack(params))
+            method(self, unpack(params))
             self._invokeList[methodName] = nil
         end)
     end

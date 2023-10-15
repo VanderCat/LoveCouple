@@ -31,20 +31,26 @@ function love.load()
     r2.material.mainTexture = t
     --r3.material.mainTexture = t
 
-    some.transform.parent = player.transform
+    some.transform:setParent(player.transform)
     some.transform:setPosition(vec(50,50))
 
-    other.transform.parent = player.transform
+    other.transform:setParent(player.transform)
     other.transform:setLocalPosition(vec(0,100))
     local a = other:addComponent(require "Scripts.test")
     a.speed = 0.5
 
-    go.transform.parent = other.transform
+    go.transform:setParent(other.transform)
     go.transform:setLocalPosition(vec(-50,0))
 
     local meta = GameObject:new("meta")
     meta:addComponent(require "Scripts.testMetaComponent")
     SceneManager:getSceneByName("DontDestroyOnLoad"):moveGameObject(meta)
+
+    GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
+
+    local searcher = GameObject:new("Searcher")
+    searcher:addComponent(require "Scripts.findTheThing")
+    searcher:addComponent(require "Scripts.findSpawner")
 end
 
 function love.update(dt)
