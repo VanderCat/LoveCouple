@@ -15,6 +15,11 @@ function Behaviour:onEnable()
     self:executeIfAny("start")
 end
 
+function Behaviour:_destroy()
+    Behaviour.super._destroy(self)
+    self:cancelInvokes()
+end
+
 function Behaviour:executeIfAny(methodName, ...)
     local method = self[methodName]
     if method then
@@ -52,7 +57,7 @@ function Behaviour:cancelInvoke(name)
 end
 
 function Behaviour:cancelInvokes()
-    for invoke, _ in ipairs(self._invokeList) do
+    for invoke, _ in pairs(self._invokeList) do
         self:cancelInvoke(invoke)
     end
 end

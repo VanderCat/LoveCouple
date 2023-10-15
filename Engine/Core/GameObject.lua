@@ -18,11 +18,11 @@ function GameObject:initialize(name, components)
 end
 
 function GameObject:_destroy()
-    GameObject:sendMessage("OnDestroy")
+    self:sendMessage("OnDestroy")
     for _, component in ipairs(self._componentList) do
         component:_destroy()
     end
-    self.super:_destroy()
+    GameObject.super._destroy(self)
     self.scene:removeGameObject(self)
     self.scene = nil
 end
