@@ -63,7 +63,6 @@ end
 
 function SceneManager:unloadAllScenes()
     for k, scene in ipairs(self._loadedScenes) do
-        print(scene.name)
         if scene.name == "DontDestroyOnLoad" then goto continue end
         self:unloadScene(scene, k)
         ::continue::

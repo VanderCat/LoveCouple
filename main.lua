@@ -1,6 +1,5 @@
 local timer = require "hdictus.hump.timer"
 
-local gameObjects = {}
 local SceneManager = require "Engine.Core.SceneManagement.SceneManager"
 function love.load()
     local scene = SceneManager:createScene("test")
@@ -26,10 +25,10 @@ function love.load()
     local go = GameObject:new("gameobjects")
     local r1 = some:addComponent(require "Engine.Core.Components.Renderer")
     local r2 = other:addComponent(require "Engine.Core.Components.Renderer")
-    --local r3 = go:addComponent(require "Engine.Core.Components.Renderer")
-    --r1.material.mainTexture = t
+    local r3 = go:addComponent(require "Engine.Core.Components.Renderer")
+    r1.material.mainTexture = t
     r2.material.mainTexture = t
-    --r3.material.mainTexture = t
+    r3.material.mainTexture = t
 
     some.transform:setParent(player.transform)
     some.transform:setPosition(vec(50,50))
@@ -44,6 +43,7 @@ function love.load()
 
     local meta = GameObject:new("meta")
     meta:addComponent(require "Scripts.testMetaComponent")
+    meta:addComponent(require "Scripts.drawDebugInfo")
     SceneManager:getSceneByName("DontDestroyOnLoad"):moveGameObject(meta)
 
     GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
@@ -52,14 +52,14 @@ function love.load()
     searcher:addComponent(require "Scripts.findTheThing")
     searcher:addComponent(require "Scripts.findSpawner")
 
-    timer.after(1, function ()
+    timer.after(15, function ()
         SceneManager:unloadScene(scene)
         local scene = SceneManager:createScene("new scene")
         SceneManager:loadScene(scene)
         GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
     end)
 
-    timer.after(4, function ()
+    timer.after(30, function ()
         local scene = SceneManager:createScene("jokes on you im now a new scene")
         SceneManager:loadScene(scene, true)
         GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
@@ -73,10 +73,7 @@ end
 
 function love.draw()
     SceneManager:draw()
-    --imgui.Render()
-    love.graphics.print(("fps:%i\ncurrent_scene: %s"):format(love.timer.getFPS(), SceneManager:getActiveScene().name))
 end
 
 function love.quit()
-    --imgui.ShutDown()
 end
