@@ -115,7 +115,7 @@ function Transform:setSiblingIndex(index)
 end
 
 function Transform:getChildren()
-    return table.shallow_copy(self._children)
+    return Lume.clone(self._children)
 end
 
 function Transform:getChild(index)
@@ -125,7 +125,7 @@ end
 function Transform:find(name)
     if #self._children == 0 then return end
 
-    local path = name:split("/")
+    local path = Lume.split(name, "/")
     if #path == 1 then
         for _, child in ipairs(self._children) do
             if child.gameObject.name == name then return child.gameObject end

@@ -4,8 +4,7 @@
     ],
     "Lua.workspace.checkThirdParty": false,
     "Lua.workspace.ignoreDir": [
-        ".vscode",
-        "Libraries"
+        ".vscode"
     ],
     "Lua.diagnostics.globals": [
         "love",

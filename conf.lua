@@ -53,6 +53,7 @@ function love.conf(t)
     package.path=package.path..";Libraries/?.lua;Libraries/?/init.lua"
     package.cpath=package.cpath..";Binaries/?.dll"
     Class = require "kikito.middleclass"
+    Lume = require "Libraries.rxi.lume"
     local socket = require("socket")
     local uuid = require("tieske.uuid")
     uuid.seed()
@@ -61,10 +62,9 @@ function love.conf(t)
     MAX_FPS = 1/1000
     require "Engine.Core.GameLoop"
 
-    require "Engine.LuaExtensions.table"
-    require "Engine.LuaExtensions.string"
+    Log = require "Engine.Logging".Logger
+    local ConsoleSink = require "Engine.Logging.Sinks.Console"("{color}[{date} {level}] \27[36m[{name}] \27[37m\27[2m{file}:{line} \27[22m{message}{reset}"):connect()
 
-    local timer = require "hdictus.hump.timer"
     --[[timer.after(100, function ()
         debug.sethook(function (a, b, c)
             local info = debug.getinfo(2)

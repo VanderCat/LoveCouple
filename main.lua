@@ -2,7 +2,11 @@ local timer = require "hdictus.hump.timer"
 
 local SceneManager = require "Engine.Core.SceneManagement.SceneManager"
 function love.load()
+    local Log = require "Engine.Logging"("love.load()")
+
     local scene = SceneManager:createScene("test")
+    Log:debug("Created scene test")
+    Log:debug("i hope this works {1}!! {2}",{uwu=0, owo="heh", lol={it={should={"work"}}}}, "yeah, i think it does work")
     SceneManager:loadScene(scene)
 
     local GameObject = require "Engine.Core.GameObject"
@@ -57,6 +61,7 @@ function love.load()
         local scene = SceneManager:createScene("new scene")
         SceneManager:loadScene(scene)
         GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
+        Log:info("Changed scene to", scene)
     end)
 
     timer.after(30, function ()

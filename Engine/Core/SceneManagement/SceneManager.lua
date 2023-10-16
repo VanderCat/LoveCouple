@@ -53,7 +53,7 @@ function SceneManager:getActiveScene()
 end
 
 function SceneManager:getLoadedScenes()
-    return table.shallow_copy(self._loadedScenes)
+    return Lume.clone(self._loadedScenes)
 end
 
 function SceneManager:setActiveScene(scene)

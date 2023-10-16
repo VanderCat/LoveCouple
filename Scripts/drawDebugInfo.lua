@@ -4,9 +4,9 @@ local debugInfo = require "Engine.Core.Behaviour" : subclass "MetaComponent"
 
 function debugInfo:awake()
     self.debugText = 
-                    [[fps:%i
-                    current_scene: %s
-                    ]]
+[[fps:%i
+current_scene: %s
+]]
 end
 
 function debugInfo:start()
