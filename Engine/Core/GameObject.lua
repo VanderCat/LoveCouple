@@ -75,4 +75,42 @@ function GameObject:getComponent(type)
     end
 end
 
+function GameObject.static.createSerialized(gameObjectTable, parent)
+    local gameObject = GameObject:new(gameObjectTable.name)
+    gameObject.name = gameObject.name or gameObject.id
+    if parent then
+        gameObject.transform:setParent(parent.transform)
+    end
+    if (gameObjectTable.transform) then
+        gameObject.transform:setFromSerialized(gameObjectTable.transform)
+    end
+    if gameObjectTable.components then 
+        for _, componentTable in pairs(gameObjectTable.components) do
+            local componentClass
+            local result, err = pcall(function()
+                componentClass = require(componentTable.classpath)
+            end)
+            if not result then
+                Log:error("Failed loading component {1} in gameObject {2}:\n{3}", componentTable.classpath, gameObjectTable.name, err)
+                goto anothercontinue
+            end
+            local component = gameObject:addComponent(componentClass)
+            for key, value in pairs(componentTable) do
+                if key == "classpath" then goto continue end
+                -- TODO: add support for custom classes
+                --       i think this should be in own function but simple one should work for now
+                component[key] = value
+                ::continue::
+            end
+            ::anothercontinue::
+        end
+    end
+    if gameObjectTable.children then
+        for _, childGameObjectTable in pairs(gameObjectTable.children) do
+            GameObject.createSerialized(childGameObjectTable, gameObject)
+        end
+    end
+    return gameObject
+end
+
 return GameObject

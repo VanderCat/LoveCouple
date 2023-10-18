@@ -60,9 +60,10 @@ function love.conf(t)
     require "extensions"
     --require "imgui"
     MAX_FPS = 1/1000
-    require "Engine.Core.GameLoop"
-
     Log = require "Engine.Logging".Logger
+    
+    require "Engine.Core.GameLoop"
+    require "Engine.Core.ErrorHandler"
     local ConsoleSink = require "Engine.Logging.Sinks.Console"("{color}[{date} {level}] \27[36m[{name}] \27[37m\27[2m{file}:{line} \27[22m{message}{reset}"):connect()
 
     --[[timer.after(100, function ()

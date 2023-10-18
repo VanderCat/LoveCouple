@@ -1,5 +1,6 @@
 local Scene = require "Engine.Core.SceneManagement.Scene"
 local Enum = require "Engine.Enum"
+local Serpent = require "pkulchenko.serpent"
 
 local SceneManager = Class "SceneManager"
 
@@ -33,13 +34,33 @@ function SceneManager:getSceneByName(name)
 end
 
 function SceneManager:loadScene(scene, isExclusive)
-    --TODO: Stub
     if isExclusive then
         self:unloadAllScenes()
     end
     
     self._loadedScenes[#self._loadedScenes+1] = scene
     self:setActiveScene(scene)
+end
+
+function SceneManager:loadSceneFromDisk(path, isExclusive)
+    local fullPath = "Data/Scenes/"..path..".scene.lua" 
+    local string = love.filesystem.read("string", fullPath)
+    local res, load = Serpent.load(string)
+    if not res then
+        Log:error("Can't load scene {1} due to error {2}!", path, load)
+        return
+    end
+
+    self:loadSceneSerialized(load, isExclusive)
+end
+
+function SceneManager:loadSceneSerialized(sceneTable, isExclusive)
+    local scene = self:createScene(sceneTable.name)
+    local GameObject = require "Engine.Core.GameObject"
+    self:loadScene(scene, isExclusive)
+    for _, gameObjectTable in pairs(sceneTable.gameObjects) do
+        GameObject.createSerialized(gameObjectTable)
+    end
 end
 
 function SceneManager:mergeScenes(source, destination)

@@ -62,7 +62,7 @@ function Transform:rotate(rot)
 end
 
 function Transform:setRotation(rot)
-    self:rotate(rot-self.localPosition)
+    self:rotate(rot-self.localRotation)
 end
 
 function Transform:getRotation()
@@ -83,7 +83,7 @@ end
 
 function Transform:setParent(transform)
     self.parent = transform
-    self.parent._children[#transform._children+1] = self
+    self.parent._children[#self.parent._children+1] = self
 end
 
 function Transform:removeParent()
@@ -138,6 +138,18 @@ function Transform:find(name)
         if foundGameObject == -1 then return end
     end
     return foundGameObject
+end
+
+function Transform:setFromSerialized(transformTable)
+    if transformTable.position then
+        self:setLocalPosition(Vector(transformTable.position.x, transformTable.position.y))
+    end
+    if transformTable.rotation then
+        self:setRotation(transformTable.rotation)
+    end
+    if transformTable.scale then
+        self:setScale(transformTable.scale)
+    end
 end
 
 return Transform

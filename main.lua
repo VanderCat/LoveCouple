@@ -64,10 +64,12 @@ function love.load()
         Log:info("Changed scene to", scene)
     end)
 
-    timer.after(30, function ()
-        local scene = SceneManager:createScene("jokes on you im now a new scene")
-        SceneManager:loadScene(scene, true)
-        GameObject:new("drawfunnyscene"):addComponent(require "Scripts.drawSceneHierarchy")
+    timer.after(1, function ()
+        SceneManager:loadSceneFromDisk("test", true)
+        --local scene = SceneManager:createScene("jokes on you im now a new scene")
+        --SceneManager:loadScene(scene, true)
+        GameObject.createSerialized(love.filesystem.load"Data/Prefabs/test.prefab.lua"())
+        meta:_destroy() -- intenral, please do not use as im using here, this is only for test
     end)
 end
 
