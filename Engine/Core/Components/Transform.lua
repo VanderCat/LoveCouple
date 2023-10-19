@@ -82,6 +82,7 @@ function Transform:right(globalSpace)
 end
 
 function Transform:setParent(transform)
+    self:removeParent()
     self.parent = transform
     self.parent._children[#self.parent._children+1] = self
 end
