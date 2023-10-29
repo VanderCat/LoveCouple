@@ -2,13 +2,14 @@ local Vector = require "hdictus.hump.vector"
 
 local Test = require "Engine.Core.Behaviour" : subclass "Test"
 
+Test.amplitude = 32
+Test.speed = 0.25
+Test._window = true
+Test._text = ""
+
 function Test:awake()
     --Variables goes here...
     self.fromPoint = self.transform:getPosition()
-    self.amplitude = 32
-    self.speed = 0.25
-    self._window = true
-    self._text = ""
     --self.render = self.gameObject:getComponent("Renderer")
 end
 

@@ -2,16 +2,23 @@ local timer = require "hdictus.hump.timer"
 
 local Behaviour = require "Engine.Core.Component" : subclass "Behaviour"
 
-function Behaviour:initialize(gameObject, transform)
-    Behaviour.super.initialize(self, gameObject, transform)
+function Behaviour:initialize(gameObject, transform, isEnabled)
+    Behaviour.super.initialize(self, gameObject, transform, isEnabled)
     self._invokeList = {}
+end
+
+function Behaviour:_onInitialize()
+    Behaviour.super._onInitialize(self)
     self:executeIfAny("awake")
+    coroutine.yield("awake()")
     if self.enabled then
         self:onEnable()
     end
+    coroutine.yield("start()")
 end
 
 function Behaviour:onEnable()
+    Behaviour.super.onEnable(self)
     self:executeIfAny("start")
 end
 

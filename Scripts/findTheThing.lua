@@ -1,7 +1,8 @@
 local Find = require "Engine.Core.Behaviour" : subclass "FindTheThing"
 
+Find.isFound = false
+
 function Find:awake()
-    self.isFound = false
 end
 
 function Find:start()

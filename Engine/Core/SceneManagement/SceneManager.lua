@@ -12,6 +12,7 @@ function SceneManager:initialize()
     self._activeScene = SceneManager._invalidScene
 
     local dontDestroy = self:createScene("DontDestroyOnLoad")
+    dontDestroy:finishLoading()
     self:loadScene(dontDestroy)
 end
 
@@ -126,4 +127,4 @@ function SceneManager:draw()
     end
 end
 
-return SceneManager()
+return SceneManager:new()

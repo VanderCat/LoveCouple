@@ -1,10 +1,11 @@
 local Test = require "Engine.Core.Behaviour" : subclass "MetaComponent"
 
+Test.text = "harou everynyan! this is a test of a global gameobject! Current Scene this gameobject in is "
+Test.enabled = true
+Test.renderCount = 0
+
 function Test:awake()
-    self.text = "harou everynyan! this is a test of a global gameobject! Current Scene this gameobject in is "
     Log:info("You should see this regardless of function are enabled or not")
-    self.enabled = true
-    self.renderCount = 0
 end
 
 function Test:start()

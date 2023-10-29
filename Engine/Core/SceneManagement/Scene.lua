@@ -22,6 +22,15 @@ function Scene:addGameObject(gameObject)
     gameObject._sceneId = #self.gameObjects+1
     self.gameObjects[#self.gameObjects+1] = gameObject
     gameObject.scene = self
+
+    local moreSteps = true
+    while moreSteps do
+        moreSteps = false
+        local nextStep = self:_loadGameObjectStage(gameObject)
+        if nextStep then
+            moreSteps = true
+        end
+    end
 end
 
 function Scene:moveGameObject(gameObject)
@@ -38,6 +47,11 @@ function Scene:removeGameObject(gameObject)
 end
 
 function Scene:isValid()
+    --TODO: Stub
+    return self._isValid
+end
+
+function Scene:load()
     --TODO: Stub
     return self._isValid
 end
@@ -59,6 +73,39 @@ function Scene:emit(name, ...)
     for _, gameObject in ipairs(self.gameObjects) do
         gameObject:sendMessage(name, {...})
     end
+end
+
+function Scene:finishLoading()
+    Log:debug("Initializing GameObject in scene \"{1}\"", self.name)
+    if self.isLoaded then
+        Log:warn("Attempt to load already loaded scene")
+    end
+    self.isLoaded = true
+    local moreSteps = true
+    local iteration = 1
+    while moreSteps do
+        moreSteps = false
+        Log:trace("--------- Iteration {1} ---------", iteration)
+        for _, gameObject in ipairs(self.gameObjects) do
+            local nextStep = self:_loadGameObjectStage(gameObject)
+            if nextStep then
+                moreSteps = true
+            end
+        end
+        iteration=iteration+1
+    end
+end
+
+function Scene:_loadGameObjectStage(gameObject)
+    local shouldContinue = false
+    for _, component in ipairs(gameObject:getComponents()) do
+        local nextStep = component:_nextInitializationStep()
+        if nextStep then
+            shouldContinue = true
+            Log:trace("{2}<{1}>\t{3}", component.class.name, gameObject.name, tostring(nextStep))
+        end
+    end
+    return shouldContinue
 end
 
 return Scene

@@ -55,6 +55,8 @@ function love.load()
     local searcher = GameObject:new("Searcher")
     searcher:addComponent(require "Scripts.findTheThing")
     searcher:addComponent(require "Scripts.findSpawner")
+    SceneManager:getActiveScene():finishLoading()
+    --[[
 
     timer.after(15, function ()
         SceneManager:unloadScene(scene)
@@ -70,7 +72,7 @@ function love.load()
         --SceneManager:loadScene(scene, true)
         GameObject.createSerialized(love.filesystem.load"Data/Prefabs/test.prefab.lua"())
         meta:_destroy() -- intenral, please do not use as im using here, this is only for test
-    end)
+    end)]]
 end
 
 function love.update(dt)

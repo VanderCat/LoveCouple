@@ -1,14 +1,42 @@
 local GameObject = require "Engine.Core.GameObject"
 local Component = require "Engine.Core.Object" : subclass "Component"
 
-function Component:initialize(gameObject, transform)
+function Component:initialize(gameObject, transform, isEnabled)
     Component.super.initialize(self)
     if not gameObject:isInstanceOf(GameObject) then 
         error(GameObject.name.." ("..GameObject.id..") ".."is not a valid GameObject!") 
     end
+    self._initialized = flase
     self.enabled = true
+    if type(isEnabled) == "boolean" then
+        self.enabled = isEnabled
+    end
     self.gameObject = gameObject
     self.transform = transform
+end
+
+
+function Component:_onInitialize()
+    self.initialized = true
+    coroutine.yield("initializationBegan")
+end
+
+function Component:_createInitialzationCoroutune()
+    self._intializationCoroutine = coroutine.create(function ()
+        self:_onInitialize()
+    end)
+end
+
+function Component:_nextInitializationStep()
+    if not self._intializationCoroutine then
+        return
+    end
+    if coroutine.status(self._intializationCoroutine) == "dead" then
+        self._intializationCoroutine = nil
+        return
+    end
+    local _, stage = coroutine.resume(self._intializationCoroutine)
+    return stage
 end
 
 function Component:toggle(state)

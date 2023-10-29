@@ -38,6 +38,7 @@ end
 function GameObject:addComponent(Component)
     local component = Component:new(self, self.transform)
     self._componentList[#self._componentList+1] = component
+    component:_createInitialzationCoroutune()
     return component
 end
 
@@ -60,7 +61,7 @@ end
 function GameObject:getComponents(type)
     local components = {}
     for _, component in ipairs(self._componentList) do
-        if component.class == type then
+        if component.class == type or not type then
             components[#components+1] = component
         end
     end
